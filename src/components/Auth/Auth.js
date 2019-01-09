@@ -4,8 +4,8 @@ export default class Auth {
     constructor() {
         this.auth0 = new auth0.WebAuth({
             // the following three lines MUST be updated
-            domain: 'chuky.auth0.com',
-            audience: 'https://chuky.auth0.com/userinfo',
+            domain: 'idee.auth0.com',
+            audience: 'https://idee.auth0.com/userinfo',
             clientID: 'fo9Kf1DBY38NoHDiAhu7XuVj3YZ3YUz5',
             redirectUri: 'http://localhost:3000/callback',
             responseType: 'token id_token',
