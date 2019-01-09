@@ -1,5 +1,5 @@
 # Shopping Cart
-An Android app that mimics the popular work communication tool - Slack.
+An Shopping Cart application authenticated with Auth0
 
 ### Setting up the project
 * Create an account at [Auth0](https://auth0.com) and login to your dashboard.
