@@ -1,61 +1,53 @@
-import auth0 from 'auth0-js';
+import createAuth0Client from '@auth0/auth0-spa-js';
+
+window.addEventListener('load', async () => {
+    window.auth0 = await createAuth0Client({
+      domain: 'franky.auth0.com',
+      client_id: '5Q3ltYyxhXeDv0dF1kmFIb4Bet79bd9b',
+      audience: 'https://franky.auth0.com/userinfo',
+      redirect_uri: 'http://localhost:3000/callback',
+      responseType: 'token id_token',
+      scope: 'openid profile'
+    });
+  });
 
 export default class Auth {
     constructor() {
-        this.auth0 = new auth0.WebAuth({
-            // the following three lines MUST be updated
-            domain: 'idee.auth0.com',
-            audience: 'https://idee.auth0.com/userinfo',
-            clientID: 'fo9Kf1DBY38NoHDiAhu7XuVj3YZ3YUz5',
-            redirectUri: 'http://localhost:3000/callback',
-            responseType: 'token id_token',
-            scope: 'openid profile'
-        });
 
+        this.auth0 = window.auth0;
         this.getProfile = this.getProfile.bind(this);
         this.handleAuthentication = this.handleAuthentication.bind(this);
         this.isAuthenticated = this.isAuthenticated.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
-        this.setSession = this.setSession.bind(this);
     }
 
-    getProfile() {
-        return this.profile;
+    async getProfile() {
+        const user = await window.auth0.getTokenSilently();
+        return user;
     }
 
-    handleAuthentication() {
-        return new Promise((resolve, reject) => {
-            this.auth0.parseHash((err, authResult) => {
-                if (err) return reject(err);
-                console.log(authResult);
-                if (!authResult || !authResult.idToken) {
-                    return reject(err);
-                }
-                this.setSession(authResult);
-                resolve();
-            });
-        })
+    async handleAuthentication() {
+        const result = await window.auth0.handleRedirectCallback();
+        const token = await window.auth0.getTokenSilently();
+        this.idToken = token;
     }
 
     isAuthenticated() {
-        return new Date().getTime() < this.expiresAt;
+        if(this.idToken) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     login() {
-        this.auth0.authorize();
+        console.log(window.auth0, "Promise me");
+        window.auth0.loginWithRedirect();
     }
 
     logout() {
-        // clear id token and expiration
-        this.idToken = null;
-        this.expiresAt = null;
+        window.auth0.logout();
     }
 
-    setSession(authResult) {
-        this.idToken = authResult.idToken;
-        this.profile = authResult.idTokenPayload;
-        // set the time that the id token will expire at
-        this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
-    }
 }

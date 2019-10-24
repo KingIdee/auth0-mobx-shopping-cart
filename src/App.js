@@ -23,7 +23,7 @@ const shoppingStore = new Store();
 class App extends Component {
   render() {
     const authenticated = this.props.auth.isAuthenticated();
-    console.log(this.props.history)
+
     return (
       <Provider store={shoppingStore}>
         <div className="container">

@@ -2,9 +2,14 @@ import React from 'react';
 import { withRouter } from 'react-router';
 
 function Callback(props) {
-    props.auth.handleAuthentication().then(() => {
-        props.history.push('/');
-    });
+    // props.auth.handleAuthentication();
+    setTimeout(() => {
+        props.auth.handleAuthentication().then((res) => {
+            console.log(res);
+            props.history.push('/');
+        });
+    }, 1000);
+    
 
     return (
         <div>
