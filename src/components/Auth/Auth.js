@@ -2,9 +2,9 @@ import createAuth0Client from '@auth0/auth0-spa-js';
 
 window.addEventListener('load', async () => {
     window.auth0 = await createAuth0Client({
-      domain: 'franky.auth0.com',
-      client_id: '5Q3ltYyxhXeDv0dF1kmFIb4Bet79bd9b',
-      audience: 'https://franky.auth0.com/userinfo',
+      domain: 'AUTH0_DOMAIN',
+      client_id: 'AUTH0_CLIENT_ID',
+      audience: 'AUTH0_AUDIENCE',
       redirect_uri: 'http://localhost:3000/callback',
       responseType: 'token id_token',
       scope: 'openid profile'
